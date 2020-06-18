@@ -28,4 +28,12 @@ const EscrowContract = artifacts.require('../../contracts/EscrowContract.sol');
       await contract.approve({from: accounts[2]});
       assert.equal(await web3.eth.getBalance(contract.address), 0, "amount doesn't match")
     });
+
+    it('withdraws', async function() {
+      const contract = await EscrowContract.deployed();
+      await contract.deposit(accounts[0], {value: 2, from: accounts[1]});
+      assert.equal(await web3.eth.getBalance(contract.address), 2, "amount doesn't match")
+      await contract.withdraw({from: accounts[2]})
+      assert.equal(await web3.eth.getBalance(contract.address), 0, "amount doesn't match")
+    })
   });
