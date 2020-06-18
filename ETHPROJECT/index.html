@@ -1,0 +1,268 @@
+<!doctype html>
+<html lang="en">
+  <head>
+   
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <style>
+      body {font-family: Courier New;}
+      
+      
+      .tab {
+        overflow: hidden;
+        border: 1px solid #ccc;
+        background-color: #f1f1f1;
+      }
+           
+      .tab button {
+        background-color: inherit;
+        float: left;
+        border: none;
+        outline: none;
+        cursor: pointer;
+        padding: 14px 16px;
+        transition: 0.3s;
+        font-size: 17px;
+      }
+      
+      
+      .tab button:hover {
+        background-color: #ddd;
+      }
+      
+      .tab button.active {
+        background-color: #ccc;
+      }
+      
+      .tabcontent {
+        display: none;
+        padding: 6px 12px;
+        border: 1px solid #ccc;
+        border-top: none;
+      }
+      </style>
+
+  
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link rel="stylesheet" href="custom.css">
+    <title>escrow contract</title>
+  </head>
+  <body>
+
+   <b style="font-family:'Courier New'"> Escrow Contract: </b>
+    <small style="font-family:'Courier New'"> send money through this contract! </small>
+
+    <div class="tab">
+      <button class="tablinks" onclick="openPage(event, 'first')">transfer</button>
+      <button class="tablinks" onclick="openPage(event, 'second')">approve</button>
+    </div>
+    
+    <div id="first" class="tabcontent">
+        <h3>Transfer through escrow</h3> 
+      <form id="contract-form">
+        <div class="form-group">
+          <label for="Sender Address">
+            <b style="font-family:'Courier New'">
+              ETH Address of Sender
+            </b>
+        </label>
+          <input value="" type="text" class="form-control" id="fromAddress" aria-describedby="fromAddressHelp" placeholder="Enter your address" required="true">
+          <small id="fromAddressHelp" class="form-text text-muted">
+            <b style="font-family:'Courier New'">
+              Please enter your wallet (account) address.
+            </b>
+          </small>
+        </div>
+        <div class="form-group">
+          <label for="Receiver Address"><b style="font-family:'Courier New'"> ETH Address of Reciever </b></label>
+          <input value="0xe637C253C403A1B48F4b9e2315086CE2B120FeB8" type="text" class="form-control" id="toAddress" aria-describedby="toAddressHelp" placeholder="Enter the receipient address" required="true">
+          <small id="toAddressHelp" class="form-text text-muted"><b style="font-family:'Courier New'"> Please enter the wallet (account) address of the recipient. </b></small>
+        </div>
+        <div class="form-group">
+          <label for="Amount"><b style="font-family:'Courier New'"> Amount </b></label>
+          <input value="2" type="text" class="form-control" id="amount" aria-describedby="amountHelp" placeholder="Amount to send in ETH" required="true">
+          <small id="amountHelp" class="form-text text-muted"><b style="font-family:'Courier New'"> How much do you want to send in ETH </b> </small>
+        </div>
+        <button type="submit" class="btn btn-success"><b style="font-family:'Courier New'"> Deposit </b></button>
+        <div id="deposit-result"> <small style="font-family:'Courier New'"> Click the button to deposit your ETH to the contract.</small></div>
+      </form>
+  </div>
+
+  <div id="second" class="tabcontent">
+    <h3>approve</h3>  
+    <b style="font-family:'Courier New'"> Approve </b>
+    <form id="approver-form">
+      <button type="submit" class="btn btn-success"><b style="font-family:'Courier New'"> Get Approver! </b></button>
+      <div id="approver-display"><small style="font-family:'Courier New'"> Click Button to get the current contract balance.</small></div>
+    </form>
+    
+    <form id="approve-form">
+      <button type="submit" class="btn btn-success"><b style="font-family:'Courier New'"> Approve Transaction </b></button>
+      <div id="approval-display"><small style="font-family:'Courier New'"> Please click the button to get the current contract balance.</small></div>
+    </form>
+
+    <form id="withdraw-form">
+      <button type="submit" class="btn btn-success"><b style="font-family:'Courier New'"> Withdraw Transaction </b></button>
+      <div id="approval-display"><small style="font-family:'Courier New'"> Please click the button to get the current contract balance.</small></div>
+    </form>
+  </div>
+
+  <div>
+    <hr>
+  <b style="font-family:'Courier New'"> Balance </b>
+  <form id="get-balance-form">
+    <button type="submit" class="btn btn-success"><b style="font-family:'Courier New'"> Get Balance! </b></button>
+    <div id="the-balance"><small style="font-family:'Courier New'"> Click Button to get the current contract balance.</small></div>
+  </form>
+  <hr>
+  </div>
+
+  <script>
+    function openPage(evt, name) {
+      var i, tabcontent, tablinks;
+      tabcontent = document.getElementsByClassName("tabcontent");
+      for (i = 0; i < tabcontent.length; i++) {
+        tabcontent[i].style.display = "none";
+      }
+      tablinks = document.getElementsByClassName("tablinks");
+      for (i = 0; i < tablinks.length; i++) {
+        tablinks[i].className = tablinks[i].className.replace(" active", "");
+      }
+      document.getElementById(name).style.display = "block";
+      evt.currentTarget.className += " active";
+    }
+    </script>
+
+  
+    <script src="web3.min.js"></script>
+    <script src="contractABI.js"></script>
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+
+
+    <script>
+      web3 = new Web3(new Web3.providers.HttpProvider("http://localhost:9545"))
+
+      
+      var contractAddress = "0x5149be4ff23ff72C9773cC791832367D58427eA6";
+      if ( typeof web3 != 'undefined' ) {
+        web3 = new Web3(web3.currentProvider);
+        $('#fromAddress').val('0xD10981B7042cBD3a5e41A9cF3c49ff4396AAC6AF');
+      } else { 
+        web3 = new Web3(new Web3.providers.HttpProvider("http://localhost:9545"));
+        
+        console.log(web3)
+        $('#fromAddress').val(web3.eth.accounts[0]);
+      }
+   
+
+      var version = web3.version;
+      console.log("Using web3 version: " + version);
+
+
+
+      var EscrowContract = new web3.eth.Contract(abi,contractAddress);
+
+      // script to show the contract
+      console.log(EscrowContract);
+
+     
+      $('#contract-form').submit(function() {
+        event.preventDefault();
+        var fromAddress = $('#fromAddress').val();
+        var toAddress = $('#toAddress').val();
+        var amount = $('#amount').val();
+        if (web3.utils.isAddress(fromAddress) != true) {
+          alert('You did not enter a correct ethereum address for the sender address.');
+          return;
+        }
+        if (web3.utils.isAddress(toAddress) != true) {
+          alert('You did not enter a correct ethereum address for the recipient address.');
+          return;
+         }
+        // make sure the ETH is > 0
+        if (amount == 0){
+          alert('You must send more than 0 ETH');
+          return;
+         }
+     
+      EscrowContract.methods.deposit(toAddress).send({from: fromAddress, gas: 100000, value:  web3.utils.toWei(amount, 'ether')},
+          function(error, result) {
+            if (error) {
+              console.log('error: ' + error);
+              $('#deposit-result').html('<b>Error: </b>' + error);
+            }
+            else {
+            $('#deposit-result').html('Success TX: <b>' + result + '</b>');
+            }
+          });
+    });
+
+
+    $('#get-balance-form').submit(function() {
+      event.preventDefault();
+
+    web3.eth.getBalance(contractAddress,
+          function(error, result) {
+            if (error) {
+              console.log('error: ' + error);
+            }
+            else {
+              console.log('balance: ' + result);
+              $('#the-balance').html('<hr><b>Current Balance: </b>' + web3.utils.fromWei(result));
+            }
+          });
+        });
+
+  //  });
+        $('#approve-form').submit(function() {
+          event.preventDefault();
+
+          EscrowContract.methods.approve().send({from: "0xdD38BD942Aa427fb47008a867914197c71A25A86", gas: 100000},
+              function(error, result) {
+                if (error) {
+                  console.log('error: ' + error);
+                }
+                else {
+                  console.log('result: ' + JSON.stringify(result));
+                  $('#approval-display').html('Transaction Approved. TX: <b>' + result + '</b>');
+                }
+              });
+        });
+
+        $('#withdraw-form').submit(function() {
+          event.preventDefault();
+
+          EscrowContract.methods.withdraw().send({from: "0xdD38BD942Aa427fb47008a867914197c71A25A86", gas: 100000},
+              function(error, result) {
+                if (error) {
+                  console.log('error: ' + error);
+                }
+                else {
+                  console.log('result: ' + JSON.stringify(result));
+                  $('#approval-display').html('Transaction Approved. TX: <b>' + result + '</b>');
+                }
+              });
+        });
+
+        $('#approver-form').submit(function() {
+          event.preventDefault();
+
+          EscrowContract.methods.viewApprover().call(
+              function(error, result) {
+                if (error) {
+                  console.log('error: ' + error);
+                }
+                else {
+                  console.log('result: ' + JSON.stringify(result));
+                  $('#approver-display').html('Approver Address: <b>' + result + '</b>');
+                }
+              });
+        });
+    </script>
+
+
+    </body>
+</html>
